@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/ >
+	<title>Swing analytics</title>
+
+	<!-- Google fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+	<script src="js/d3.v3.min.js"></script>
+		
+	<!-- jQuery -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<!-- Bootstrap 3 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-paper.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	
+	<!-- Intro.js -->
+	<link rel="stylesheet" type="text/css" href="css/introjs.css">
+	<script type="text/javascript" src="js/intro.js"></script>
+
+	<!-- Custom Files -->
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/peerGroups.js"></script>
+	<script src="js/pros.js"></script>	
+	<script src="js/euclid.js"></script>
+	<script src="js/setupVisuals.js"></script>
+	<script src="js/redrawSwing.js"></script>
+	<script src="js/setupComparison.js"></script>	
+	
+	<!-- Small CSS needed for online version -->
+	<style>
+		.introjs-helperNumberLayer {
+			display: none;
+		}
+	</style>
+	
+</head>
+<body>
+	<!-- adjusted start -->
+	<div id="cont" class="container-fluid">
+
+		<!-- First step - Pulsating Circle -->
+		<div class="row text-center stepOneElements">				
+			<div class="col-sm-6 column text-center" id="introStep1">
+				<div class="chartLeft"></div>
+			</div>
+			
+			<div class="col-sm-6 column text-center stepOneText" style="visibility: hidden;">
+				<h3 style="color: #575757;">Swing Analytics</h1>
+				<hr>
+				<img style="padding-top: 70px;" width=500 src="img/Deloitte-logo.png"/>
+				<h4 style="color: #999; padding-top: 30px; padding-bottom: 30px;">#WhichGolfProAreYou</h4>
+				<hr>
+			</div>
+		</div>
+		
+		<!-- Second step - Find Peer group -->
+		<div class="row text-center stepTwoElements">	
+			<div class="col-sm-12 column text-center">
+				<h1>Determine your Peer group</h1>
+				<hr>
+				
+				<div class="row text-center definePeerGroup" id="introStep2">				
+					<div class="col-sm-12 column text-center">					
+						<div class="col-sm-4 column text-center">						
+							<h3 style="padding-bottom: 10px; padding-top: 10px;">Gender</h3>
+							<div id="buttonWrapper" class="btn-group gender" data-toggle="buttons">
+								<label id="button_Man" class="btn btn-default btn-xlarge" value="Man"><input type="radio" "class="btn-options"> Male </label>
+								<label id="button_Vrouw" class="btn btn-default active btn-xlarge" value="Vrouw"><input type="radio" value="Female" class="btn-options"> Female </label>
+							</div>
+						</div>
+						<div class="col-sm-4 column text-center">	
+							<h3 style="padding-bottom: 10px;">Year of Birth</h3>
+							<div id="buttonWrapper" class="btn-group age" data-toggle="buttons">
+								<label id="button_1950_1975" value="1950_1975" class="btn btn-default btn-xlarge"><input type="radio" class="btn-options"> < 1975 </label>
+								<label id="button_1975_1985" value="1975_1985" class="btn btn-default active btn-xlarge"><input type="radio" class="btn-options"> 1975 - 1985 </label>
+								<label id="button_1985_1997" value="1985_1997" class="btn btn-default btn-xlarge"><input type="radio" class="btn-options"> 1985 - 1997 </label>
+								<!--<label id="button_1997_2015" value="1997_2015" class="btn btn-default btn-xlarge"><input type="radio" class="btn-options"> > 1997 </label>-->
+							</div>
+						</div>
+						<div class="col-sm-4 column text-center">			
+							<h3 style="padding-bottom: 10px;">Handicap</h3>
+							<div id="buttonWrapper" class="btn-group handicap" data-toggle="buttons">
+								<label id="button_0_5" value="0_5" class="btn btn-default btn-xlarge"><input type="radio" class="btn-options"> 0 - 5 </label>
+								<label id="button_5_15" value="5_15" class="btn btn-default active btn-xlarge"><input type="radio" class="btn-options"> 5 - 15 </label>
+								<label id="button_15_25" value="15_25" class="btn btn-default btn-xlarge"><input type="radio" class="btn-options"> 15 - 25 </label>
+								<label id="button_25_36" value="25_36" class="btn btn-default btn-xlarge"><input type="radio" class="btn-options"> 25 - 36 </label>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div style="height: 100px;"></div>
+				
+				<div class="row text-center defineSocialMedia" id="introStep3">
+					<span style="font-size: 13px;">Would you like to receive the results by e-mail or Twitter then please fill them in below</span>
+					<div style="height: 20px;"></div>
+					<div class="col-sm-3 col-sm-offset-2 column text-center">
+						<h5 style="padding-bottom: 10px;">E-mail</h5>
+						<form role="form">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="E-mail address" id="emailInput">
+							</div>
+						</form>
+					</div>
+					<div class="col-sm-3 col-sm-offset-2 column text-center">
+						<h5 style="padding-bottom: 10px;">Twitter</h5>
+						<form role="form">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Username" id="twitterInput">
+							</div>
+						</form>
+					</div>
+				</div>
+				
+				<div style="height: 50px;"></div>
+				
+				<div class="row text-center defineButton">
+					<div class="col-sm-12 column text-center">
+						<div class="submitButton" style="padding-top: 20px;"></div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<!-- Third step - Hitting charts -->
+		<div class="row text-center stepThreeElements">	
+			<h1 class="stepThreeTitle">Ready for Swing 1</h1>
+			<hr>
+			
+			<div class="col-sm-12 column text-center defineSwingCharts">
+				
+				<div class="row text-center">
+					<div class="col-sm-6 column text-center">
+						<h5>Ball Speed [m/h]</h5>
+						<div class="chart ballSpeed"></div>
+					</div>	
+					<div class="col-sm-6 column text-center">
+						<h5>Club Speed [m/h]</h5>
+						<div class="chart clubSpeed"></div>
+					</div>
+				</div>
+				
+				<div class="row text-center">
+					<div class="col-sm-6 column text-center">
+						<h5>Carry & Side [meters]</h5>
+						<div class="chart carry"></div>
+					</div>	
+					<div class="col-sm-6 column text-center">
+						<h5>Angle of Attack [degrees]</h5>
+						<div class="chart aoa"></div>
+					</div>
+				</div>					
+				
+				<div class="row text-center">
+					<div class="col-sm-3 column text-center">
+						<div class="peerGroupLegend" style="padding-top: 20px;"></div>
+					</div>
+					<div class="col-sm-6 column text-center">
+						<div class="finishButton" style="padding-top: 20px;" id="introStep4"></div>
+					</div>
+					<div class="col-sm-3 column text-center">
+						<div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Fourth step - Final Comparison -->
+		<div class="row text-center stepFourElements">
+			<h1 style="color: #575757;">Which Golf Pro are You?</h1>
+			<hr>
+			
+			<!-- Golf pro --> 
+			<div class="col-sm-4 column text-center" id="introStep5">
+				<h4 style="padding-bottom: 10px;">Your swing is most similar to that of</h4>
+				<h3 class="namePro" style="padding-bottom: 30px; font-weight: 400;">...</h3>
+				<a href="http://thepatternlibrary.com/"><img class="ProImage" border="0" width=250 src=""/></a>
+				<div class="golfProStats" style="font-size: 14px; padding-top: 30px;">
+						<span>Age</span><br>
+						<span class="proAge" style="font-size: 16px; color: #1A1A1A; font-weight: 400;"></span><br><br>
+						<span class="proGolfEvent"></span><br>
+						<span class="proGolfEventNum" style="font-size: 16px; color: #1A1A1A; font-weight: 400;"></span>
+				</div>
+			</div>
+			
+			<!-- Radar chart -->
+			<div class="col-sm-4 column text-center">
+				<h4 class="radarChartTitle">Your swing compared to</h4>
+				<div class="radarChart" id="introStep6"></div>
+				<div class="explanation" style="padding-top: 25px; color: #404040; font-size: 11px">
+					<span id="introStep7">Above you can find <span style="color:#81bc00; font-weight: 400;">your scores</span> compared to those of the 
+					<span style="color:#004a95; font-weight: 400;">Golf Pro</span> that has the most similar swing as you. The average scores of your Peer Group
+					and the Peer Group of the Pro are both represented by the dark grey circular line. Because these are standard scores the grey line is exactly at the center of the chart.
+					If you fall inside of the grey line, you perform less well than your Peer Group on average and when you fall outside of the grey line you are doing better. 
+					The same is true for the blue Golf Pro compared to his or her Peer Group.
+					</span></div>
+				<!-- Trigger the modal with a button --><!-- adjusted -->
+				<button id="introStep8" type="button" class="btn btn-default btn-md proRadars" style="margin-top: 20px;" data-toggle="modal" data-target="#myModal">All Pro's</button>
+			</div>
+			
+			<!-- Averages golfer -->
+			<div class="col-sm-4 column text-center" id="introStep9">
+				<div class="averagesSwing">
+					<h4 class="titleScore" style="padding-bottom: 15px;">Your average score</h4>
+					<!-- table showing the averages of the swings -->
+					<div style="font-size: 15px; width:100%; height:100%;">
+						<table>
+						   <tr>
+							<td class="name" style="text-align: right;"></td>
+							<td class="tableTitle" colspan = "2">Your Scores</td>
+							<td class="tableTitle" colspan = "2" style="padding-left: 30px;">Peer Group</td>
+						  </tr>
+						  <tr>
+							<td class="name" style="text-align: left;">Ball Speed:</td>
+							<td style="text-align: right;"><span class="golferBallSpeed"></span></td>
+							<td style="text-align: left;">miles / hour</td>
+							<td style="text-align: right; font-size: 11px; padding-left: 30px;"><span class="peerBallSpeed"></span></td>
+							<td style="text-align: left; font-size: 11px;">miles / hour</td>
+						  </tr>
+						  <tr>
+							<td class="name" style="text-align: left;">Club Speed:</td>
+							<td style="text-align: right;"><span class="golferClubSpeed"></span></td>
+							<td style="text-align: left;">miles / hour</td>
+							<td style="text-align: right; font-size: 11px; padding-left: 30px;"><span class="peerClubSpeed"></span></td>
+							<td style="text-align: left; font-size: 11px;">miles / hour</td>
+						  </tr>
+						  <tr>
+							<td class="name" style="text-align: left;">Attack Angle:</td>
+							<td style="text-align: right;"><span class="golferAttackAngle"></span></td>
+							<td style="text-align: left;">°</td>
+							<td style="text-align: right; font-size: 11px; padding-left: 30px;"><span class="peerAttackAngle"></span></td>
+							<td style="text-align: left; font-size: 11px;">°</td>
+						  </tr>
+						  <tr>
+							<td class="name" style="text-align: left;">Carry:</td>
+							<td style="text-align: right;"><span class="golferCarry"></span></td>
+							<td style="text-align: left;">meters</td>
+							<td style="text-align: right; font-size: 11px; padding-left: 30px;"><span class="peerCarry"></span></td>
+							<td style="text-align: left; font-size: 11px;">meters</td>
+						  </tr>
+						  <tr>
+							<td class="name" style="text-align: left;">Side:</td>
+							<td style="text-align: right;"><span class="golferSide"></span></td>
+							<td style="text-align: left;">meters</td>
+							<td style="text-align: right; font-size: 11px; padding-left: 30px;"><span class="peerSide"></span></td>
+							<td style="text-align: left; font-size: 11px;">meters</td>
+						  </tr>
+						</table>
+					</div>
+				</div>
+				
+				<div class="improvements">
+					<h4 style="padding-top:70px;">Your strong points</h4>
+					<div style="padding-bottom: 10px; font-size: 12px; color: #949494;">Compared to your peer group you score better on</div>
+					<div class="strongPoints" style="font-size: 15px;"></div>
+					<h4 style="padding-top:40px;">Your improvement points</h4>
+					<div style="padding-bottom: 10px; font-size: 12px; color: #949494;">Compared to your peer group you score less well on</div>
+					<div class="weakPoints" style="font-size: 15px;"></div>
+				</div>
+				<div style="padding-top: 70px;">
+					<hr>
+					<h6 style="padding-bottom: 5px;">Made possible by</h6>
+					<img width=200 src="img/Deloitte-logo.png"/>
+				</div>
+			</div>
+
+			<!-- Modal -->
+			<div class="modal" id="myModal">
+			  <div class="modal-dialog" style="width: 1200px;">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				  </div>
+				  <div class="modal-body">
+				  
+					<div class="row text-center">
+						<div class="col-sm-4 column">
+							<h5>Andrew Ace</h5>
+							<hr style="margin-top: 0px;">
+							<div class="andrewAce"></div>
+						</div>
+						<div class="col-sm-4 column">
+							<h5>Brian Bogey</h5>
+							<hr style="margin-top: 0px;">
+							<div class="brianBogey"></div>
+						</div>
+						<div class="col-sm-4 column">
+							<h5>Charles Course</h5>
+							<hr style="margin-top: 0px;">
+							<div class="charlesCourse"></div>
+						</div>
+					</div>
+					
+					<div class="row text-center" style="padding-top: 20px;">
+						<div class="col-sm-4 column">
+							<h5>Deborah Drive</h5>
+							<hr style="margin-top: 0px;">
+							<div class="deborahDrive"></div>
+						</div>
+						<div class="col-sm-4 column">
+							<h5>Emma Eagle</h5>
+							<hr style="margin-top: 0px;">
+							<div class="emmaEagle"></div>
+						</div>
+						<div class="col-sm-4 column">
+							<h5>Florence Fore</h5>
+							<hr style="margin-top: 0px;">
+							<div class="florenceFore"></div>
+						</div>
+					</div>
+					
+				  </div>
+				</div>
+			  </div>
+			</div>
+	  
+		</div>
+		
+	</div>
+		
+	<!-- Attribution -->
+	<!--<div style="width: 100%; bottom: 20px; position: absolute;" class="attributionWrapper">
+		<div class="attribution">Deloitte  |  Swing Analytics  |  #WhichGolfProAreYou</div>
+	</div>-->
+
+	<script src="js/main.js"></script>
+
+	<!-- Extra Script for online version to explain process -->
+	<script type="text/javascript">
+		function firstIntro() {
+		  var introguide = introJs();
+		  introguide.setOption('showBullets', false);
+		  introguide.setOptions({
+			steps: [
+			{
+			  element: '#introStep1',
+			  intro: 'Click on the left side of the screen to continue.<br>This project was developed for a resolution off 1920 x 1080 pixels and not completely response. It could therefore not show perfectly on your resolution',
+			  position: 'right'
+			}
+			]
+		  });
+
+		  introguide.start();
+		};
+
+		function secondIntro() {
+		  var introguide = introJs();
+		  //introguide.setOption('showBullets', false);
+		  introguide.setOptions({
+			steps: [
+			{
+			  element: '#introStep2',
+			  intro: 'Participants could define their peer group in this 2nd screen',
+			  position: 'bottom'
+			},{
+			  element: '#introStep3',
+			  intro: "If they wanted to receive the results they could supply their e-mail below.<br>Just leave this empty and press 'submit' to continue",
+			  position: 'bottom'
+			}
+			]
+		  });
+
+		  introguide.start();
+		};
+
+		function thirdIntro() {
+		  var introguide = introJs();
+		  introguide.setOption('showBullets', false);
+		  introguide.setOptions({
+			steps: [
+			{
+			  element: '#introStep4',
+			  intro: "Click anywhere on the screen to simulate a swing. The data will be randomly generated.<br>For the experience it's best to wait until the title reads 'Ready for swing ...' before clicking again.<br>Press 'finished' once you've made enough swings",
+			  position: 'top'
+			}
+			]
+		  });
+
+		  introguide.start();
+		};
+		
+		function fourthIntro() {
+		  var introguide = introJs();
+		  //introguide.setOption('showBullets', false);
+		  introguide.setOptions({
+			steps: [
+			{
+			  element: '#introStep5',
+			  intro: "Here you would see a photo and some info about the Golf Pro that your swing was most similar to",
+			  position: 'right'
+			},{
+			  element: '#introStep6',
+			  intro: "This radar chart shows per variable how your swing (green) compared to that of the Golf Pro (blue) and the Peer group (grey)",
+			  position: 'bottom'
+			},{
+			  element: '#introStep7',
+			  intro: "Here you can find some extra information",
+			  position: 'top'
+			},{
+			  element: '#introStep8',
+			  intro: "For those that were curious, by clicking this button you would be compared to all 6 Golf Pros",
+			  position: 'top'
+			},{
+			  element: '#introStep9',
+			  intro: "Finally, you could see your averages (compared to your Peer Group), strong points and points to improve on",
+			  position: 'left'
+			}
+			]
+		  });
+
+		  introguide.start();
+		};
+
+		//Start the first intro on page load
+		firstIntro();
+		
+		//Need a normally distributed random number generator
+		//http://blog.yjl.im/2010/09/simulating-normal-random-variable-using.html
+		function normal_random(mean, variance) {
+			if (mean == undefined)
+				mean = 0.0;
+			if (variance == undefined)
+				variance = 1.0;
+			var V1, V2, S;
+			do {
+				var U1 = Math.random();
+				var U2 = Math.random();
+				V1 = 2 * U1 - 1;
+				V2 = 2 * U2 - 1;
+				S = V1 * V1 + V2 * V2;
+			} while (S > 1);
+
+			X = Math.sqrt(-2 * Math.log(S) / S) * V1;
+			//Y = Math.sqrt(-2 * Math.log(S) / S) * V2;
+			X = mean + Math.sqrt(variance) * X;
+			//Y = mean + Math.sqrt(variance) * Y ;
+			return X;
+		}
+	</script>
+
+  </body>
+</html>
