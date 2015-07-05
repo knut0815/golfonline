@@ -95,7 +95,7 @@ function setupComparison() {
 	else weakPointsString = weakPointsString.concat("Angle of Attack, ");
 	if (golferZscore[3] >= 0) strongPointsString = strongPointsString.concat("Carry, ");
 	else weakPointsString = weakPointsString.concat("Carry, ");
-	if (golferZscore[4] >= 0) strongPointsString = strongPointsString.concat("Side, ");
+	if (golferZscore[4] < 0) strongPointsString = strongPointsString.concat("Side, ");
 	else weakPointsString = weakPointsString.concat("Side, ");
 	
 	strongPointsString = strongPointsString.substring(0, strongPointsString.length - 2);
